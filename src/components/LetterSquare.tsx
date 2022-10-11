@@ -7,11 +7,17 @@ export enum LetterSquareStatus {
 
 const colors = ['transparent', '#76B041', '#FFC914', '#8B939C'];
 
-export default function LetterSquare() {
+interface LetterSquareProps {
+    letter: string;
+    status: LetterSquareStatus;
+}
+
+export default function LetterSquare(props: LetterSquareProps) {
+    const { letter, status } = props;
 
     return (
-        <div style={{ ...styles.container, backgroundColor: colors[0] }}>
-            <p style={styles.text}>X</p>
+        <div style={{ ...styles.container, backgroundColor: colors[status]}}>
+          <p style={styles.text}>{letter.toUpperCase()}</p>
         </div>
     );
 };

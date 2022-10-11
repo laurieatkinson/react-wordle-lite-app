@@ -7,18 +7,35 @@ export default function PlayGamePage() {
     const allWords = ["small", "brave", "super", "large", "happy"];
     const secretWord = getSecretWord(allWords);
     let gameOver = false;
+    let guessList: string[] = [];
+    let inputWord = '';
+
+    const onLetterSelected = (key: string) => {
+        if (inputWord.length < 5) {
+            inputWord = `${inputWord}${key}`;
+        }
+    }
+
+    const onDelete = () => {
+        inputWord = inputWord.slice(0, -1);
+    }
+
+    const onEnter = () => {
+        guessList = [...guessList, inputWord.toUpperCase()];
+        inputWord = '';
+    }
 
     return (
         <div>
             <h1>Wordle Lite</h1>
 
-            <GameBoard />
+            <GameBoard secretWord={secretWord} guessList={guessList} inputWord={inputWord} />
 
             <div style={styles.bottomContainer}>
                 {gameOver ?
                     <GameCompleteDisplay />
                 :
-                    <Keyboard />
+                <Keyboard onLetterSelected={onLetterSelected} onDelete={onDelete} onEnter={onEnter} />
                 }
             </div>
         </div>

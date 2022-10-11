@@ -1,3 +1,9 @@
+interface KeyboardProps {
+    onLetterSelected(letter: string): void;
+    onEnter(): void;
+    onDelete(): void;
+}
+
 export enum KeyboardActions {
     ENTER = 'ENTER',
     DELETE = 'DELETE'
@@ -9,7 +15,21 @@ const keyboardKeys: string[][] = [
     [KeyboardActions.ENTER, 'Z', 'X', 'C', 'V', 'B', 'N', 'M', KeyboardActions.DELETE]
 ];
 
-export default function Keyboard() {
+export default function Keyboard(props: KeyboardProps) {
+
+    const onKeyPress = (key: string) => {
+        switch(key) {
+            case KeyboardActions.ENTER:
+                props.onEnter();
+                break;
+            case KeyboardActions.DELETE:
+                props.onDelete();
+                break;
+            default:
+                props.onLetterSelected(key);
+        }
+    }
+
     return (
         <>
             {keyboardKeys.map((row, index) => {
@@ -17,7 +37,7 @@ export default function Keyboard() {
                     <div key={'key-row-' + index} style={styles.row}>
                         {row.map(key => {
                             return (
-                                <div key={key}
+                                <div onClick={() => onKeyPress(key)} key={key}
                                     style={{...styles.cell,
                                         width: key === KeyboardActions.ENTER || key === KeyboardActions.DELETE ? 80 : 50
                                     }}>
