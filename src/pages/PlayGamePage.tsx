@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import GameBoard from '../components/GameBoard';
 import GameCompleteDisplay from '../components/GameCompleteDisplay';
 import Keyboard from '../components/Keyboard';
@@ -5,24 +6,37 @@ import { getSecretWord } from '../utils/word-helpers';
 
 export default function PlayGamePage() {
     const allWords = ["small", "brave", "super", "large", "happy"];
-    const secretWord = getSecretWord(allWords);
-    let gameOver = false;
-    let guessList: string[] = [];
-    let inputWord = '';
+    const [secretWord, setSecretWord] = useState(getSecretWord(allWords));
+    const [gameOver, setGameOver] = useState<boolean>(false);
+    const [guessList, setGuessList] = useState<string[]>([]);
+    const [inputWord, setInputWord] = useState<string>('');
 
     const onLetterSelected = (key: string) => {
         if (inputWord.length < 5) {
-            inputWord = `${inputWord}${key}`;
+            setInputWord(`${inputWord}${key}`);
         }
+        // setInputWord(word => {
+        //     if (word.length < 5) {
+        //         return `${word}${key}`;
+        //     }
+        //     return word;
+        // });
     }
 
     const onDelete = () => {
-        inputWord = inputWord.slice(0, -1);
+        setInputWord(inputWord.slice(0, -1));
+        // setInputWord(word => word.slice(0, -1));
     }
 
     const onEnter = () => {
-        guessList = [...guessList, inputWord.toUpperCase()];
-        inputWord = '';
+        if (inputWord.length === 5) {
+            if (inputWord === secretWord || guessList.length === 5) {
+                setGameOver(true);
+            }
+            setGuessList([...guessList, inputWord]);
+            // setGuessList(list => [...list, inputWord]);
+            setInputWord('');
+        }
     }
 
     return (
@@ -33,7 +47,7 @@ export default function PlayGamePage() {
 
             <div style={styles.bottomContainer}>
                 {gameOver ?
-                    <GameCompleteDisplay />
+                    <GameCompleteDisplay secretWord={secretWord} guessList={guessList} />
                 :
                 <Keyboard onLetterSelected={onLetterSelected} onDelete={onDelete} onEnter={onEnter} />
                 }
