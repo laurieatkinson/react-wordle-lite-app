@@ -33,7 +33,7 @@ export default function PlayGamePage() {
 
             <div style={styles.bottomContainer}>
                 {gameOver ?
-                    <GameCompleteDisplay />
+                    <GameCompleteDisplay secretWord={secretWord} guessList={guessList} />
                 :
                 <Keyboard onLetterSelected={onLetterSelected} onDelete={onDelete} onEnter={onEnter} />
                 }
