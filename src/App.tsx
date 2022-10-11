@@ -1,9 +1,10 @@
 import './App.css'
+import PlayGamePage from './pages/PlayGamePage'
 
 function App() {
   return (
     <div className="App">
-      <h1>Worldle Lite Starter App</h1>
+      <PlayGamePage />
     </div>
   )
 }
