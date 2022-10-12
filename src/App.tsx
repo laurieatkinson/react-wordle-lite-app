@@ -1,10 +1,15 @@
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import PlayGamePage from './pages/PlayGamePage'
+import StatsPage from './pages/StatsPage'
 
 function App() {
   return (
     <div className="App">
-      <PlayGamePage />
+      <Routes>
+        <Route path="/" element={<PlayGamePage />} />
+        <Route path="/stats" element={<StatsPage />} />
+      </Routes>
     </div>
   )
 }

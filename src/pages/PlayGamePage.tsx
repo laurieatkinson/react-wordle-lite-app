@@ -1,5 +1,6 @@
 import { Alert } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import GameBoard from '../components/GameBoard';
 import GameCompleteDisplay from '../components/GameCompleteDisplay';
 import Keyboard from '../components/Keyboard';
@@ -50,7 +51,7 @@ export default function PlayGamePage() {
     return (
         <div>
             <h1>Wordle Lite</h1>
-
+            
             { isLoading ?
                 <h4>Loading...</h4>
             : error ?
@@ -66,6 +67,7 @@ export default function PlayGamePage() {
                 <Keyboard onLetterSelected={onLetterSelected} onDelete={onDelete} onEnter={onEnter} />
                 }
             </div>
+            <Link to="/stats">View Stats</Link>
         </div>
     );
 };
