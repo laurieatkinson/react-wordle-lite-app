@@ -4,46 +4,35 @@ import { Link } from 'react-router-dom';
 import GameBoard from '../components/GameBoard';
 import GameCompleteDisplay from '../components/GameCompleteDisplay';
 import Keyboard from '../components/Keyboard';
-import useWords from '../hooks/useWords';
-import { getSecretWord } from '../utils/word-helpers';
+import { useGame } from '../redux/gameHooks';
 
 export default function PlayGamePage() {
-    const { wordList, error, isLoading } = useWords();
-    const [secretWord, setSecretWord] = useState('');
+    const game = useGame();
     const [gameOver, setGameOver] = useState<boolean>(false);
-    const [guessList, setGuessList] = useState<string[]>([]);
     const [inputWord, setInputWord] = useState<string>('');
 
     useEffect(() => {
-        if (wordList.length) {
-            setSecretWord(getSecretWord(wordList));
+        if (game.wordList.length === 0) {
+            game.getWordList();
         }
-    }, [wordList]);
+    }, []);
 
     const onLetterSelected = (key: string) => {
         if (inputWord.length < 5) {
             setInputWord(`${inputWord}${key}`);
         }
-        // setInputWord(word => {
-        //     if (word.length < 5) {
-        //         return `${word}${key}`;
-        //     }
-        //     return word;
-        // });
     }
 
     const onDelete = () => {
         setInputWord(inputWord.slice(0, -1));
-        // setInputWord(word => word.slice(0, -1));
     }
 
     const onEnter = () => {
         if (inputWord.length === 5) {
-            if (inputWord === secretWord || guessList.length === 5) {
+            if (inputWord === game.secretWord || game.guessList.length === 5) {
                 setGameOver(true);
             }
-            setGuessList([...guessList, inputWord]);
-            // setGuessList(list => [...list, inputWord]);
+            game.guessAnotherWord(inputWord);
             setInputWord('');
         }
     }
@@ -52,17 +41,17 @@ export default function PlayGamePage() {
         <div>
             <h1>Wordle Lite</h1>
             
-            { isLoading ?
+            { game.loading ?
                 <h4>Loading...</h4>
-            : error ?
-                <Alert severity="error">{error}</Alert>
+            : game.errorMessage ?
+                <Alert severity="error">{game.errorMessage}</Alert>
             :
-                <GameBoard secretWord={secretWord} guessList={guessList} inputWord={inputWord} />
+                <GameBoard secretWord={game.secretWord} guessList={game.guessList} inputWord={inputWord} />
             }
 
             <div style={styles.bottomContainer}>
                 {gameOver ?
-                    <GameCompleteDisplay secretWord={secretWord} guessList={guessList} />
+                    <GameCompleteDisplay secretWord={game.secretWord} guessList={game.guessList} />
                 :
                 <Keyboard onLetterSelected={onLetterSelected} onDelete={onDelete} onEnter={onEnter} />
                 }
