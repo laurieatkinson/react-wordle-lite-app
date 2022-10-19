@@ -15,3 +15,8 @@ Links shared during the presentation
 -  [The completed app](https://stackblitz.com/github/laurieatkinson/react-wordle-lite-app/tree/step-07)
 -  [Tooling choices](https://beta.reactjs.org/learn/start-a-new-react-project#choose-your-own-adventure)
 -  [Functional components instead of class components](https://beta.reactjs.org/learn/your-first-component#defining-a-component)
+-  [useState hook](https://beta.reactjs.org/learn/state-as-a-snapshot#rendering-takes-a-snapshot-in-time)
+-  [React Router](https://www.npmjs.com/package/react-router) [React Router documentation](https://reactrouter.com/en/main)
+-  [What is Redux](https://redux.js.org/tutorials/fundamentals/part-1-overview#what-is-redux)
+-  [Redux Overview](https://redux.js.org/tutorials/fundamentals/part-1-overview#data-flow)
+-  [Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start)
