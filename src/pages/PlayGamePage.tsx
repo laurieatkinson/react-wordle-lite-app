@@ -22,6 +22,9 @@ export default function PlayGamePage() {
 
     const onEnter = () => {
         if (inputWord.length === 5) {
+            if (inputWord === secretWord || guessList.length === 5) {
+                gameOver = true;
+            }
             guessList = [...guessList, inputWord.toUpperCase()];
             inputWord = '';
         }
